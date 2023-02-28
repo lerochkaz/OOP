@@ -5,12 +5,15 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import computingModels.Computable;
 import computingModels.Model;
 
 public class Server {
     private DataOutputStream dataOutputStream;
     private DataInputStream dataInputStream;
     private Socket socket;
+    private Computable computableModel = new Model();
 
     public Server(int port) {
         try (ServerSocket serverSocket = new ServerSocket(port);) {
@@ -22,7 +25,7 @@ public class Server {
             while (true) {
                 String request = getData();
                 System.out.println("Получен запрос от клиента, происходит обработка...");
-                String result = new Model().compute(request);
+                String result = computableModel.compute(request);
                 System.out.println("Ответ получен и отправлен клиенту");
                 if (request.equals("end")) {
                     closeServer();
